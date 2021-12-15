@@ -1,0 +1,23 @@
+---
+- name: install apache
+  yum:
+    name: httpd
+    state: latest
+- name: start service
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+- name: copy index page
+  template:
+    src: index.html
+    dest: "{{ www_root }}/index.html"
+    mode: '0644'
+  handlers: reload_httpd
+- name: allow connections
+  firewalld:
+    service: "{{ service }}"
+    permanent: yes
+    state: enabled
+    zone: "{{ zone }}"
+    immediate: yes

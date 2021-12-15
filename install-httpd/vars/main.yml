@@ -1,0 +1,6 @@
+---
+# vars file for install-httpd
+www_root: /var/www/html
+index_text: This is sample webpage
+service: http
+zone: public

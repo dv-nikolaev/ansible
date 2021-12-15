@@ -1,0 +1,6 @@
+---
+# handlers file for install-httpd
+- name: reload_httpd
+  service:
+    name: httpd
+    state: reloaded
