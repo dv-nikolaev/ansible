@@ -1,0 +1,7 @@
+---
+# vars file for install-httpd
+config_dir: /etc/vsftpd
+service: ftp
+zone: public
+ftp_upload: { path: /var/ftp/pub/upload, mode: '0777' }
+ftp_anon_root: { path: /var/ftp/pub, mode: '0555' }

@@ -13,7 +13,7 @@
     src: index.html
     dest: "{{ www_root }}/index.html"
     mode: '0644'
-  handlers: reload_httpd
+  notify: reload_httpd
 - name: allow connections
   firewalld:
     service: "{{ service }}"

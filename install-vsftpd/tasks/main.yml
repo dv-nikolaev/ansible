@@ -1,0 +1,41 @@
+---
+- name: install vsftpd
+  yum:
+    name: vsftpd
+    state: latest
+- name: create ftp dir
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+    owner: ftp
+    group: ftp
+  with_items:
+    - "{{ ftp_upload }}"
+    - "{{ ftp_anon_root }}"
+- name: copy config
+  template:
+    src: vsftpd.conf.j2
+    dest: "{{ config_dir }}/vsftpd.conf"
+    mode: '0644'
+  notify: restart_vsftpd
+- name: allow connections
+  firewalld:
+    service: "{{ service }}"
+    permanent: yes
+    state: enabled
+    zone: "{{ zone }}"
+    immediate: yes
+- name: Allow anon write access through SELinux
+  seboolean:
+    name: "{{ item }}"
+    state: yes
+    persistent: yes
+  with_items:
+    - ftpd_full_access
+    - ftpd_anon_write
+- name: start service
+  service:
+    name: vsftpd
+    state: started
+    enabled: yes

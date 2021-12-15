@@ -1,0 +1,4 @@
+[nodes]
+node[1:2].example.com
+[http]
+node1.example.com
